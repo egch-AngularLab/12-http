@@ -20,6 +20,8 @@ app.use((req, res, next) => {
 
 app.get("/places", async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
+  //we want to simulate an error in the backend
+  //return res.status(500).json();
 
   const fileContent = await fs.readFile("./data/places.json");
 
