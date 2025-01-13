@@ -6,9 +6,8 @@ import { PlacesComponent } from '../places.component';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { Place } from '../place.model';
+import { PlacesService } from '../places.service';
 
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-user-places',
@@ -21,25 +20,12 @@ export class UserPlacesComponent implements OnInit {
     places = signal<Place[] | undefined>(undefined);
     isFetching = signal(false);
     error = signal('');
-  
-    private httpClient = inject(HttpClient);
     private destroyRef = inject(DestroyRef);
+    private placesService = inject(PlacesService);
 
     ngOnInit() {
       this.isFetching.set(true);
-      const subscription = this.httpClient
-        .get<{
-          places: Place[];
-        }>('http://localhost:3000/user-places')
-        .pipe(
-          map((resData) => resData.places),
-          catchError((error) => {
-            console.log(error);
-            return throwError(
-              () => new Error('Something went wrong. Please try again later.')
-            )}
-          )
-        )
+      const subscription = this.placesService.loadUserPlaces()
         .subscribe({
           next: (places) => {
             this.places.set(places);
