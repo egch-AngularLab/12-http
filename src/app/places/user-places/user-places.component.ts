@@ -5,7 +5,6 @@ import { PlacesComponent } from '../places.component';
 
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
-import { Place } from '../place.model';
 import { PlacesService } from '../places.service';
 
 

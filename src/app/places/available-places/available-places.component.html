@@ -1,7 +1,7 @@
 <app-places-container title="Available Places">
 
-  @if (isFetching() && !error){
-    <p class="fallback-text">Fetching...</p>
+  @if (isFetching() && !error()){
+    <p class="fallback-text">Fetching Available Places...</p>
   }
 
 @if (error()) {
